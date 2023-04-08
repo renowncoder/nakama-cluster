@@ -26,40 +26,40 @@ type Delegate struct {
 	conn   *nakamacluster.Client
 }
 
-// LocalState 发送本地状态信息
+// LocalState Send local state information
 func (s *Delegate) LocalState(join bool) []byte {
 	s.logger.Info("Call LocalState", zap.Bool("join", join))
 	return []byte("dddddd-" + s.conn.GetLocalNode().Name)
 }
 
-// MergeRemoteState 发送本地状态信息
+// MergeRemoteState Send local state information
 func (s *Delegate) MergeRemoteState(buf []byte, join bool) {
 	s.logger.Info("Call MergeRemoteState", zap.Bool("join", join))
 	fmt.Println("----->", string(buf))
 }
 
-// NotifyJoin 接收节点加入通知
+// NotifyJoin Receive node join notification
 func (s *Delegate) NotifyJoin(node *nakamacluster.Meta) {
 	//s.logger.Info("Call NotifyJoin", zap.Any("meta", node))
 }
 
-// NotifyLeave 接收节点离线通知
+// NotifyLeave Receive node offline notification
 func (s *Delegate) NotifyLeave(node *nakamacluster.Meta) {
 	//s.logger.Info("Call NotifyLeave", zap.Any("meta", node))
 }
 
-// NotifyUpdate 接收节点更新通知
+// NotifyUpdate Receive node update notifications
 func (s *Delegate) NotifyUpdate(node *nakamacluster.Meta) {
 	s.logger.Info("Call NotifyUpdate", zap.Any("meta", node))
 }
 
-// NotifyAlive 接收节点活动通知
+// NotifyAlive Receive node activity notifications
 func (s *Delegate) NotifyAlive(node *nakamacluster.Meta) error {
 	//s.logger.Info("Call NotifyAlive", zap.Any("meta", node))
 	return nil
 }
 
-// NotifyMsg 接收节来至其它节点的信息
+// NotifyMsg Receive node messages from other nodes
 func (s *Delegate) NotifyMsg(node string, msg *api.Envelope) (*api.Envelope, error) {
 	s.logger.Info("Call NotifyMsg", zap.Any("msg", msg))
 	return nil, nil
@@ -102,7 +102,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	client, err := sd.NewEtcdV3Client(ctx, []string{"127.0.0.1:12379", "127.0.0.1:22379", "127.0.0.1:32379"}, sd.EtcdClientOptions{})
 	if err != nil {
-		log.Fatal("连接etcd失败", zap.Error(err))
+		log.Fatal("Failed to connect to etcd", zap.Error(err))
 	}
 
 	c := nakamacluster.NewConfig()
@@ -138,11 +138,11 @@ func main() {
 	serverId2 := fmt.Sprintf("node-server-%d", rand.Intn(10000))
 	client2, err := sd.NewEtcdV3Client(ctx, []string{"127.0.0.1:12379", "127.0.0.1:22379", "127.0.0.1:32379"}, sd.EtcdClientOptions{})
 	if err != nil {
-		log.Fatal("连接etcd失败", zap.Error(err))
+		log.Fatal("Failed to connect to etcd", zap.Error(err))
 	}
 	ss := nakamacluster.NewServer(ctx, log, client2, serverId2, "CC", vars, *c2)
 	ss.OnDelegate(&Delegate{logger: log, conn: s})
-	log.Info("服务启动成功", zap.String("addr", c.Addr), zap.Int("port", c.Port))
+	log.Info("Service started successfully", zap.String("addr", c.Addr), zap.Int("port", c.Port))
 	go func() {
 		t := time.NewTicker(time.Second * 10)
 		defer t.Stop()
@@ -192,7 +192,7 @@ func main() {
 	case <-ctx.Done():
 	}
 
-	log.Info("服务已经关闭")
+	log.Info("service is down")
 	scopeCloser.Close()
 	cancel()
 }

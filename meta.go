@@ -8,17 +8,17 @@ import (
 	sockaddr "github.com/hashicorp/go-sockaddr"
 )
 
-// MetaStatus 状态
-// 将用于描述微服务的状态
+// MetaStatus state
+// Will be used to describe the state of the microservice
 type MetaStatus int
 
 const (
-	META_STATUS_WAIT_READY MetaStatus = iota // 等待就绪
-	META_STATUS_READYED                      // 节点准备就绪
-	META_STATUS_STOPED                       // 节点关闭
+	META_STATUS_WAIT_READY MetaStatus = iota // waiting for ready
+	META_STATUS_READYED                      // node ready
+	META_STATUS_STOPED                       // node down
 )
 
-// NodeMeta 节点参数
+// NodeMeta Node parameters
 type Meta struct {
 	Id     string            `json:"id"`
 	Name   string            `json:"name"`
@@ -28,7 +28,7 @@ type Meta struct {
 	Vars   map[string]string `json:"vars"`
 }
 
-// Marshal 创建JSON
+// Marshal create JSON
 func (n *Meta) Marshal() ([]byte, error) {
 	return json.Marshal(n)
 }
@@ -38,7 +38,7 @@ func (n Meta) Clone() *Meta {
 	return &n
 }
 
-// NewNodeMetaFromJSON 通过JSON流创建NodeMeta
+// NewNodeMetaFromJSON Created via json stream NodeMeta
 func NewNodeMetaFromJSON(b []byte) *Meta {
 	var m Meta
 	if err := json.Unmarshal(b, &m); err != nil {
@@ -47,7 +47,7 @@ func NewNodeMetaFromJSON(b []byte) *Meta {
 	return &m
 }
 
-// NewNodeMeta 创建NodeMeta信息
+// NewNodeMeta Create node meta information
 func NewNodeMeta(id, name, addr string, nodeType NodeType, vars map[string]string) *Meta {
 	return &Meta{
 		Id:     id,
@@ -59,7 +59,7 @@ func NewNodeMeta(id, name, addr string, nodeType NodeType, vars map[string]strin
 	}
 }
 
-// NewNodeMetaFromConfig 通过配置文件创建NodeMeta
+// NewNodeMetaFromConfig Create node meta through configuration file
 func NewNodeMetaFromConfig(id, name string, t NodeType, vars map[string]string, c Config) *Meta {
 	addr := ""
 	ip, err := net.ResolveIPAddr("ip", c.Addr)

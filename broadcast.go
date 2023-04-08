@@ -75,7 +75,7 @@ func (b *Broadcast) Name() string {
 	return b.name
 }
 
-// NewBroadcast 创建广播
+// NewBroadcast create broadcast
 func NewBroadcast(frame *api.Frame) *Broadcast {
 	return &Broadcast{
 		name:     frame.Id,

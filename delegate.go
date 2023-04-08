@@ -10,25 +10,25 @@ import (
 )
 
 type Delegate interface {
-	// LocalState 发送本地状态信息
+	// LocalState Send local state information
 	LocalState(join bool) []byte
 
-	// MergeRemoteState 发送本地状态信息
+	// MergeRemoteState Send local state information
 	MergeRemoteState(buf []byte, join bool)
 
-	// NotifyJoin 接收节点加入通知
+	// NotifyJoin Receive node join notification
 	NotifyJoin(node *Meta)
 
-	// NotifyLeave 接收节点离线通知
+	// NotifyLeave Receive node offline notification
 	NotifyLeave(node *Meta)
 
-	// NotifyUpdate 接收节点更新通知
+	// NotifyUpdate Receive node update notifications
 	NotifyUpdate(node *Meta)
 
-	// NotifyAlive 接收节点活动通知
+	// NotifyAlive Receive node activity notifications
 	NotifyAlive(node *Meta) error
 
-	// NotifyMsg 接收节来至其它节点的信息
+	// NotifyMsg Receive node messages from other nodes
 	NotifyMsg(node string, msg *api.Envelope) (*api.Envelope, error)
 }
 

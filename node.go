@@ -1,9 +1,9 @@
 package nakamacluster
 
-// 节点类型
+// node type
 type NodeType int
 
 const (
-	NODE_TYPE_NAKAMA        NodeType = iota + 1 // nakama主服务
-	NODE_TYPE_MICROSERVICES                     // 微服务
+	NODE_TYPE_NAKAMA        NodeType = iota + 1 // nakama main service
+	NODE_TYPE_MICROSERVICES                     // microservice
 )

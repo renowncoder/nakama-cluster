@@ -1,6 +1,6 @@
 package nakamacluster
 
-// 集群配置
+// cluster configuration
 type Config struct {
 	Addr                         string `yaml:"gossip_bindaddr" json:"gossip_bindaddr" usage:"Interface address to bind Nakama to for discovery. By default listening on all interfaces."`
 	Port                         int    `yaml:"gossip_bindport" json:"gossip_bindport" usage:"Port number to bind Nakama to for discovery. Default value is 7352."`

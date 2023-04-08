@@ -4,7 +4,7 @@ package nakama.cluster;
 
 option go_package = "github.com/doublemo/nakama-cluster/api";
 
-// 微服务接口
+// Microservice interface口
 service ApiServer{
     rpc Call(Envelope) returns(Envelope) {}
     rpc Stream(stream Envelope) returns (stream Envelope) {}
